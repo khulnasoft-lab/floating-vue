@@ -1,14 +1,17 @@
-export default async function (_, _nuxt) {
-  const { addPluginTemplate } = await import('@nuxt/kit')
-
-  const nuxt = (this && this.nuxt) || _nuxt
+export default function () {
+  const nuxt = this.nuxt
+  nuxt.options.vue.compilerOptions.directiveTransforms = nuxt.options.vue.compilerOptions.directiveTransforms || {}
+  nuxt.options.vue.compilerOptions.directiveTransforms.tooltip = () => ({
+    props: [],
+    needRuntime: true,
+  })
 
   nuxt.options.css.push('floating-vue/dist/style.css')
 
-  addPluginTemplate({
+  this.addPlugin({
     filename: 'floating-vue.mjs',
     getContents: () => `
-      import { defineNuxtPlugin } from '#imports'
+      import { defineNuxtPlugin } from '#app'
       import FloatingVue from 'floating-vue'
       
       export default defineNuxtPlugin((nuxtApp) => {
@@ -20,11 +23,4 @@ export default async function (_, _nuxt) {
 
   // @TODO remove when floating-ui supports native ESM
   nuxt.options.build.transpile.push('floating-vue', '@floating-ui/core', '@floating-ui/dom')
-
-  // SSR support for v-tooltip directive
-  nuxt.options.vue.compilerOptions.directiveTransforms = nuxt.options.vue.compilerOptions.directiveTransforms || {}
-  nuxt.options.vue.compilerOptions.directiveTransforms.tooltip = () => ({
-    props: [],
-    needRuntime: true,
-  })
 }
