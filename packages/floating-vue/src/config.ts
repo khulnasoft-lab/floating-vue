@@ -14,7 +14,7 @@ export const config: FloatingVueConfig = {
   // Skip delay & CSS transitions when another popper is shown, so that the popper appear to instanly move to the new position.
   instantMove: false,
   // Auto destroy tooltip DOM nodes (ms)
-  disposeTimeout: 150,
+  disposeTimeout: 5000,
   // Triggers on the popper itself
   popperTriggers: [],
   // Positioning strategy
@@ -31,10 +31,6 @@ export const config: FloatingVueConfig = {
   arrowPadding: 0,
   // Compute arrow overflow (useful to hide it)
   arrowOverflow: true,
-  /**
-   * By default, compute autohide on 'click'.
-   */
-  autoHideOnMousedown: false,
   // Themes
   themes: {
     tooltip: {
@@ -71,7 +67,7 @@ export const config: FloatingVueConfig = {
     menu: {
       $extend: 'dropdown',
       triggers: ['hover', 'focus'],
-      popperTriggers: ['hover'],
+      popperTriggers: ['hover', 'focus'],
       delay: {
         show: 0,
         hide: 400,
